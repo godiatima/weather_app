@@ -1,0 +1,547 @@
+$colors: (
+    backgroundColor: #f5f5f5,
+    primary: #ffffff,
+    secondary: #487eb0,
+    textColor: #333333,
+    placeholderColor: #22222270,
+    hoverColor: #c23616,
+    dayColor: #00827c,
+    errorColor: #e1302a
+);
+
+@function color($colorName) {
+    @return map-get($colors, $colorName); 
+}
+
+// Variables
+$center: translate(-50%, -50%);
+$mainFont: "Paytone One";
+$textFont: "Raleway Regular";
+$mediumFont: "Raleway Medium";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+// Screen sizes
+$smallerScreen: 920px;
+$midScreen: 600px;
+$mobile: 500px;
+
+@mixin smallerScreen {
+    @media (max-width: #{$smallerScreen}) {
+        @content;
+    }
+}
+
+@mixin midScreen {
+    @media (max-width: #{$midScreen}) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (max-width: #{$mobile}) {
+        @content;
+    }
+}
+
+body {
+    background-color: color(backgroundColor);
+
+    .container {
+        width: 70%;
+        min-height: 550px;
+        padding: 10px;
+        margin: 25px 0px;
+
+        position: relative;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        background-color: color(primary);
+
+        border-radius: 10px;
+        box-shadow: 0px 10px 10px rgba(0,0,0,0.15);
+
+        a {
+            text-decoration: none;
+            color: color(placeholderColor);
+            font-family: $mediumFont;
+            transition: 0.15s ease;
+        }
+
+        a:hover {
+            color: color(hoverColor);
+        }
+
+        @include smallerScreen {
+            ::-webkit-scrollbar {
+                width: 10px;
+                height: 6px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: color(secondary);
+                border-radius: 1px;
+            }
+        }
+
+        @include midScreen {
+            top: 0px;
+            margin: 0;
+            border-radius: 0px;
+            width: 100%;
+            min-height: 615px;
+        }
+
+        @include mobile {
+            top: 0px;
+            width: 100%;
+            min-height: 615px;
+            border-radius: 0px;
+            margin: 0;
+        }
+
+    }
+
+    // City basic info
+    .city-basic {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        #name {
+            font-family: $mediumFont;
+            font-size: 22px;
+            color: color(dayColor);
+        }
+
+        * {
+            margin: 5px 0;
+        }
+
+        img {
+            padding: 0;
+            margin: 0;
+        }
+
+
+        #weather_desc {
+            font-family: $mediumFont;
+            font-size: 20px;
+            margin: 0px;
+            color: color(secondary);
+         }
+    }
+
+    /* Loader */
+    .loader {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    // Buttons
+    .buttons {
+        display: none;
+        justify-content: center;
+        margin: 30px 0;
+        z-index: 3;
+
+        button {
+            border-radius: 1px;
+            border: 1px solid rgba(0,0,0,0.15);
+            padding: 5px;
+            margin: 0 3px;
+            background-color: color(primary);
+            color: color(textColor);
+            font-family: $mediumFont;
+            cursor: pointer;
+            outline: none;
+            transition: 0.2s ease;
+        }
+        button:hover {
+            background-color: color(secondary);
+            color: color(primary);
+        }
+
+        .activeButton {
+            background-color:color(secondary);
+            color: color(primary);
+        }
+
+        @include midScreen {
+            margin-bottom: 130px;
+        }
+    }
+
+    .units {
+        display: none;
+        font-size: 18px;
+        cursor: pointer;
+        margin: 10px 0;
+
+        .activeUnit {
+            color: color(hoverColor);
+        }
+
+        span{
+            color: rgba(0,0,0,0.3);
+        }
+    }
+
+    .bottom{
+        display: grid;
+        grid-template-columns: 60px 1fr 60px;
+        grid-template-areas: "githubSection errorSection aboutSection";
+        z-index: -1;
+
+        width: 98%;
+        position: absolute;
+        bottom: 0;
+    
+        .github {
+            grid-area: githubSection;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+
+            p {
+                margin: 5px 0;
+                font-family: $textFont;
+            }
+        }
+
+        .error {
+            grid-area: errorSection;
+            display: none;
+            justify-content: center;
+            align-items: center;
+
+            i {
+                font-size: 35px;
+                color:color(errorColor);
+            }
+
+            p {
+                margin-left: 5px;
+                font-family: $mediumFont;
+                font-size: 14px;
+                color: color(placeholderColor);
+            }
+        }
+        
+        #about {
+            grid-area: aboutSection;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @include midScreen {
+            position: fixed;
+            bottom: 0px;
+            margin-top: 30px;
+
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-areas:
+            "errorSection"
+            "githubSection"
+            "aboutSection";
+
+            * {
+                margin: 5px 0;
+            }
+        }
+    }
+
+    
+    // About
+    .about-container {
+        display: none;
+        width: 60%;
+        height: auto;
+        padding: 20px;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        background-color: color(primary);
+        box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+
+        h2 {
+            font-family: $mainFont;
+            font-size: 30px;
+            text-align: center;
+            color: color(secondary);
+        }
+
+        p {
+            font-family: $textFont;
+            font-size: 18px;
+            text-align: center;
+
+            span {
+                color: color(dayColor);
+                font-family: $mediumFont;
+            }
+        }
+
+        a {
+            color: color(secondary);
+        }
+
+        #closeAbout {
+            display: block;
+            margin: 10px 0;
+            font-family: $mediumFont;
+            font-size: 18px;
+            color: color(hoverColor);
+            cursor: pointer;
+            text-align: center;
+        }
+
+        @include midScreen {
+            width: 80%;
+        }
+    }
+}
+
+// Header
+header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    @include smallerScreen {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .title {
+        text-align: center;
+
+        h1 {
+            color: color(secondary);
+            font-family: $mainFont;
+            font-size:50px;
+
+            @include smallerScreen {
+                font-size: 40px;
+            }
+        }
+
+
+        p {
+            color: color(placeholderColor);
+            font-family: $textFont;
+        }
+    }
+}
+
+// Search field
+.search-bar {
+    max-width: 450px;
+    margin: 0 auto;
+
+    #form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        
+        input{
+            width: 100%;
+            padding: 8px;
+            margin: 15px 0;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.2);
+            font-family: $mediumFont;
+            outline: none;
+            transition: 0.4s ease;
+        }
+
+        input:focus {
+            border: 1px solid color(secondary);
+        }
+
+        input::placeholder {
+            font-family: $textFont;
+            color: color(placeholderColor);
+        }
+
+        #search-icon {
+            position: absolute;
+            right: 5px;
+            font-size: 25px;
+            color: color(placeholderColor);
+            transform:rotateZ(0deg);
+            transition: 0.4s ease;
+        }
+
+        input:focus ~ #search-icon{
+            color: color(secondary);
+        }
+    }
+}
+
+// Weather data
+.weather-data {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+
+    margin: 10px 0;
+
+    // Current
+    .weather-data_current {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        opacity: 0;
+        transition: 0.7s ease;
+
+        font-family: $mediumFont;
+        color: #555555;
+
+        .numerals {
+            font-family: $mediumFont;
+            font-size: 20px;
+            color: color(secondary);
+        }
+    }
+
+    // Forecast
+    .forecast-container {
+        flex-basis: 100%;
+        min-height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        opacity: 1;
+        transition: 1s ease;
+        
+        .forecast-box {
+            opacity: 0;
+            padding: 10px;
+            color: color(secondary);
+            border-radius: 2px;
+            flex-basis: 20%;
+            min-height: 200px;
+            margin: 0px;
+            animation: testBox 0.3s ease-in-out forwards;
+            transition: 0.3s ease;
+            cursor: pointer;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .forecast-data {
+                font-size: 12px;
+
+                p {
+                    margin: 5px 0;
+                    font-family: $mediumFont;
+
+                }
+
+                #day {
+                    font-family: "Raleway Black";
+                    font-size: 22px;
+                    color: color(dayColor);
+                }
+
+                #day-date {
+                    font-size: 14px;
+                    color: color(placeholderColor);
+                }
+            }
+
+            @include smallerScreen {
+                width: 250px;
+                
+                .forecast-data {
+                    font-size: 18px;
+                }
+            }
+        }
+        .forecast-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 6px 10px rgba(0,0,0,0.15);
+        }
+        .forecast-box:nth-child(2){
+            animation-delay: 0.3s;
+        }
+        .forecast-box:nth-child(3){
+            animation-delay: 0.6s;
+        }
+        .forecast-box:nth-child(4){
+            animation-delay: 0.9s;
+        }
+        .forecast-box:nth-child(5){
+            animation-delay: 1.2s;
+        }
+    }
+
+    .weather-data_current.activeCurrent {
+        opacity: 1;
+    }
+
+    @include smallerScreen{
+        overflow-y: hidden;
+        justify-content: flex-start;
+    }
+}
+
+// Material icons support
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+// Forecast boxes animation
+@keyframes testBox{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}

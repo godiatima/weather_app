@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#487eb0">
+	<meta name="description" content="Weather application to get current weather data anf forecast for next 5 days">
+	<title>WeatherApp</title>
+	<link rel="stylesheet" href="static/css/fonts.css">
+	<link rel="stylesheet" href="static/css/main.css">
+	<link rel="shortcut icon" type="image/x-icon" href="static/images/favicon.png">
+</head>
+<body>
+	<div class="container">
+		<header>
+			<!--Title-->
+			<div class="title">
+				<h1>Weather App</h1>
+				<p>the weather app you need</p>
+				<div class="activeUnit" id="celsius">C</div>
+				<span>|</span>
+				<a id="fahrenheit">F</a>
+			</div>
+	</div>
+</header>
+
+<!-- Form Field -->
+<div class="search-bar">
+	<form id="form">
+		<input type="text" id="inputField" placeholder="Enter City Name" autocomplete="off">
+		<i id="search-icon" class="material-icons">Search</i>
+	</form>
+</div>
+
+<!--City/state name and weather icon -->
+	<div class="city-basic">
+		<p id="name"></p>
+		<img id="weather_icon">
+		<p id="weather_desc"></p>
+	</div>
+	<!-- loader while loading data -->
+	<div class="loader">
+		<img src="static/images/thunder.svg" alt="" width="100px" height="100px">
+	</div>
+	<!-- Current weather data -->
+	<div class="weather-data" id="weather-data"></div>
+	<!-- Buttons -->
+	<div class="Buttons">
+		<button class="activeButtton" id="current">CURRENT</button>
+		<button id="forecast">FORECAST</button>
+	</div>
+
+	<!-- Bottom Section -->
+	<div class="bottom">
+		<!-- GitHub link -->
+		<a href="https://github.com/pecko95/WeatherApp" target="_blank" rel="noreferrer">
+			<div class="github">
+				<img src="static/image/github.svg" alt="GitHub" width="25px" height="25px">
+				<p>Github</p>
+			</div>
+		</a>
+
+		<!-- Error notification -->
+		<div class="error">
+			<i class="material-icons">warnings</i>
+			<p>Please enter a city name in the search field.</p>
+	</div>
+	<a href="#" id="about">about</a>
+</div>
+
+<!-- About modal -->
+<div class="about-container">
+	<h2>About</h2>
+	<p>This is a learning project that uses the <a href="https://openweathermap.org" target="_blank" title="Open Weather Map" rel="noreferrer">openweathermap's API</a> to provide current weather data and forecast for the next 5 days. Technologies used: <span>HTML / SCSS / JavaScript.</span> Custom weather icons provided by: <a href="https://www.amcharts.com/free-animated-svg-weather-icons/" target="_blank" title="Amcharts" rel="noreferrer">amcharts</a>.</p>
+
+	<a id="closeAbout">Close</a>
+</div>
+
+	<script type="module" src="static/js/app.js"></script>
+</body>
+</html>
